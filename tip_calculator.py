@@ -1,0 +1,5 @@
+total = int(input('What was the total bill?'))
+tip_option = int(input('How much tip would you like to give? 10, 12 or 15?')) 
+share = int(input('How many people to split the bill?'))
+print(type(total))
+print (f'each person should pay: {total*tip_option/10/share} ')
