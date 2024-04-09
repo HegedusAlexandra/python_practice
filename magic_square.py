@@ -60,29 +60,24 @@ def remove_duplicates(arrays):
 def find_common_with_matching_positions(arr1, arr2, positions1, positions2):
     filtered = [[], []]
 
+    # Function to check matching positions
+    def positions_match(el1, el2):
+        return all(el1[pos1] == el2[pos2] for pos1, pos2 in zip(positions1, positions2))
 
+    # Function to check uniqueness except at matching positions
+    def is_unique_except_positions(el1, el2):
+        combined = [el for i, el in enumerate(el1 + el2) if i not in positions1 + [x + len(el1) for x in positions2]]
+        return len(combined) == len(set(combined))
 
-    if len(positions1) > 1:
-        for el1 in arr1:
-            for el2 in arr2:
-                # Corrected the comparison to use elements el1 and el2
-                if el1[positions1[0]] == el2[positions2[0]] and el1[positions1[1]] == el2[positions2[1]] and el1[positions2[0]] != el2[positions1[0]] and el1[positions2[1]] != el2[positions1[1]] and el1[positions2[0]] != el2[positions1[1]] and el1[positions2[1]] != el2[positions1[0]] :
-                    filtered[0].append(el1)
-                    filtered[1].append(el2)
+    for el1 in arr1:
+        for el2 in arr2:
+            if positions_match(el1, el2) and is_unique_except_positions(el1, el2):
+                filtered[0].append(el1)
+                filtered[1].append(el2)
 
-        # Applying remove_duplicates here to ensure the output is unique
-        filtered[0] = remove_duplicates(filtered[0])
-        filtered[1] = remove_duplicates(filtered[1])
-    else:
-        for el1 in arr1:
-            for el2 in arr2:
-                if el1[positions1[0]] == el2[positions2[0]]:
-                    filtered[0].append(el1)
-                    filtered[1].append(el2)
-
-        # Applying remove_duplicates here to ensure the output is unique
-        filtered[0] = remove_duplicates(filtered[0])
-        filtered[1] = remove_duplicates(filtered[1])
+    # Remove duplicates
+    filtered[0] = remove_duplicates(filtered[0])
+    filtered[1] = remove_duplicates(filtered[1])
 
     return filtered
 
