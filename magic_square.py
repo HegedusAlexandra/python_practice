@@ -14,7 +14,7 @@ nodes = [
 # find all the possible combinations for the given node, 
 # from numbers until maxNumber including the number at position what is in the object excluding the last number / numbers 
 
-def find_valid_combinations(target_sum, fixed_position, excluded_nums):
+def find_valid_combinations (target_sum, fixed_position, excluded_nums):
     all_combinations = []
 
     # Generate all possible combinations of numbers from 1 to maxNumber
@@ -110,13 +110,6 @@ common_7 = find_common_with_matching_positions(common_2_array3, common_4_array6,
 common_7_array3 =  remove_duplicates(common_7[0])
 common_7_array6 =  remove_duplicates(common_7[1])
 
-print('common',common_5_array1 )
-print('common',common_6_array2 )
-print('common',common_7_array3 )
-print('common',common_5_array4 )
-print('common',common_6_array5 )
-print('common',common_7_array6 )
-
 common_8 = find_common_with_matching_positions(common_5_array1, common_6_array5, [2],[0])
 common_8_array1 =  remove_duplicates(common_8[0])
 common_8_array5 =  remove_duplicates(common_8[1])
@@ -133,10 +126,21 @@ common_11 = find_common_with_matching_positions(common_7_array3, common_8_array5
 common_11_array3 =  remove_duplicates(common_11[0])
 common_11_array5 =  remove_duplicates(common_11[1])
 
+common_12 = find_common_with_matching_positions(common_8_array1, common_10_array2, [1,2],[0,3])
+common_12_array1 =  remove_duplicates(common_12[0])
 
-print('common_with',common_8_array1 )
-print('common_with',common_10_array2 )
-print('common_with',common_11_array3 )
-print('common_with',common_10_array4 )
-print('common_with',common_11_array5 )
-print('common_with',common_9_array6 )
+""" print('common_with',*common_12_array1 )
+print('common_with',*common_10_array2 )
+print('common_with',*common_11_array3 )
+print('common_with',*common_10_array4 )
+print('common_with',*common_11_array5 )
+print('common_with',*common_9_array6 ) """
+
+# Structured assembly of result based on specified indices from the arrays
+result = [
+    [common_12_array1[0][0], common_12_array1[0][1], common_10_array2[0][1], common_11_array3[0][1]],
+    [common_12_array1[0][3], common_10_array4[0][1], common_9_array6[0][0], common_9_array6[0][1]],
+    [common_10_array4[0][3], common_10_array4[0][2], common_9_array6[0][3], common_9_array6[0][2]]
+]
+
+print('Result:', result)
