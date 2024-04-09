@@ -44,12 +44,12 @@ def find_valid_combinations (target_sum, fixed_position, excluded_nums):
 
     return all_combinations
 
-find_valid_combinations_array1 = find_valid_combinations(*nodes[0])
-find_valid_combinations_array2 = find_valid_combinations(*nodes[1])
-find_valid_combinations_array3 = find_valid_combinations(*nodes[2])
-find_valid_combinations_array4 = find_valid_combinations(*nodes[3])
-find_valid_combinations_array5 = find_valid_combinations(*nodes[4])
-find_valid_combinations_array6 = find_valid_combinations(*nodes[5])
+array1 = find_valid_combinations(*nodes[0])
+array2 = find_valid_combinations(*nodes[1])
+array3 = find_valid_combinations(*nodes[2])
+array4 = find_valid_combinations(*nodes[3])
+array5 = find_valid_combinations(*nodes[4])
+array6 = find_valid_combinations(*nodes[5])
 
 # compare two nodes with given common position
 
@@ -81,66 +81,58 @@ def find_common_with_matching_positions(arr1, arr2, positions1, positions2):
 
     return filtered
 
+constellation_type_1=[[1,2],[0,3]]
+constellation_type_2=[[2,3],[1,0]]
+constellation_type_middle_1=[[2],[0]]
+constellation_type_middle_2=[[3],[1]]
 
-common_1 = find_common_with_matching_positions(find_valid_combinations_array1, find_valid_combinations_array2, [1,2],[0,3])
-common_1_array1 = remove_duplicates(common_1[0])
-common_1_array2 = remove_duplicates(common_1[1])
+array1 =find_common_with_matching_positions(array1, array2, *constellation_type_1)[0]
+array2 = find_common_with_matching_positions(array1, array2, *constellation_type_1)[1]
 
-common_2 = find_common_with_matching_positions(common_1_array2, find_valid_combinations_array3, [1,2],[0,3])
-common_2_array2 = remove_duplicates(common_2[0])
-common_2_array3 = remove_duplicates(common_2[1])
+array2 = find_common_with_matching_positions(array2, array3, *constellation_type_1)[0]
+array3 = find_common_with_matching_positions(array2, array3, *constellation_type_1)[1]
 
-common_3 = find_common_with_matching_positions(find_valid_combinations_array4, find_valid_combinations_array5, [1,2],[0,3])
-common_3_array4 = remove_duplicates(common_3[0])
-common_3_array5 = remove_duplicates(common_3[1])
+array4 = find_common_with_matching_positions(array4, array5, *constellation_type_1)[0]
+array5 = find_common_with_matching_positions(array4, array5, *constellation_type_1)[1]
 
-common_4 = find_common_with_matching_positions(common_3_array5, find_valid_combinations_array6, [1,2],[0,3])
-common_4_array5 = remove_duplicates(common_4[0])
-common_4_array6 = remove_duplicates(common_4[1])
+array5 = find_common_with_matching_positions(array5, array6, *constellation_type_1)[0]
+array6 = find_common_with_matching_positions(array5, array6, *constellation_type_1)[1]
 
-common_5 = find_common_with_matching_positions(common_1_array1, common_3_array4, [2,3],[1,0])
-common_5_array1 = remove_duplicates(common_5[0])
-common_5_array4 = remove_duplicates(common_5[1])
+array1 = find_common_with_matching_positions(array1, array4, *constellation_type_2)[0]
+array4 = find_common_with_matching_positions(array1, array4, *constellation_type_2)[1]
 
-common_6 = find_common_with_matching_positions(common_2_array2, common_4_array5, [2,3],[1,0])
-common_6_array2 = remove_duplicates(common_6[0])
-common_6_array5 = remove_duplicates(common_6[1])
+array2 = find_common_with_matching_positions(array2, array5, *constellation_type_2)[0]
+array5 = find_common_with_matching_positions(array2, array5, *constellation_type_2)[1]
 
-common_7 = find_common_with_matching_positions(common_2_array3, common_4_array6, [2,3],[1,0])
-common_7_array3 =  remove_duplicates(common_7[0])
-common_7_array6 =  remove_duplicates(common_7[1])
+array3 =  find_common_with_matching_positions(array3, array6, *constellation_type_2)[0]
+array6 =  find_common_with_matching_positions(array3, array6, *constellation_type_2)[1]
 
-common_8 = find_common_with_matching_positions(common_5_array1, common_6_array5, [2],[0])
-common_8_array1 =  remove_duplicates(common_8[0])
-common_8_array5 =  remove_duplicates(common_8[1])
+array1 =  find_common_with_matching_positions(array1, array5, *constellation_type_middle_1)[0]
+array5 =  find_common_with_matching_positions(array1, array5, *constellation_type_middle_1)[1]
 
-common_9 = find_common_with_matching_positions(common_6_array2, common_7_array6, [2],[0])
-common_9_array2 =  remove_duplicates(common_9[0])
-common_9_array6 =  remove_duplicates(common_9[1])
+array2 =  find_common_with_matching_positions(array2, array6, *constellation_type_middle_1)[0]
+array6 =  find_common_with_matching_positions(array2, array6, *constellation_type_middle_1)[1]
 
-common_10 = find_common_with_matching_positions(common_9_array2, common_5_array4, [3],[1])
-common_10_array2 =  remove_duplicates(common_10[0])
-common_10_array4 =  remove_duplicates(common_10[1])
+array2 =  find_common_with_matching_positions(array2, array4, *constellation_type_middle_2)[0]
+array4 =  find_common_with_matching_positions(array2, array4, *constellation_type_middle_2)[1]
 
-common_11 = find_common_with_matching_positions(common_7_array3, common_8_array5, [3],[1])
-common_11_array3 =  remove_duplicates(common_11[0])
-common_11_array5 =  remove_duplicates(common_11[1])
+array3 =  find_common_with_matching_positions(array3, array5, *constellation_type_middle_2)[0]
+array5 =  find_common_with_matching_positions(array3, array5, *constellation_type_middle_2)[1]
 
-common_12 = find_common_with_matching_positions(common_8_array1, common_10_array2, [1,2],[0,3])
-common_12_array1 =  remove_duplicates(common_12[0])
+array1 =  find_common_with_matching_positions(array1, array2, *constellation_type_1)[0]
 
-""" print('common_with',*common_12_array1 )
-print('common_with',*common_10_array2 )
-print('common_with',*common_11_array3 )
-print('common_with',*common_10_array4 )
-print('common_with',*common_11_array5 )
-print('common_with',*common_9_array6 ) """
+""" print('common_with',*array1 )
+print('common_with',*array2 )
+print('common_with',*array3 )
+print('common_with',*array4 )
+print('common_with',*array5 )
+print('common_with',*array6 ) """
 
 # Structured assembly of result based on specified indices from the arrays
 result = [
-    [common_12_array1[0][0], common_12_array1[0][1], common_10_array2[0][1], common_11_array3[0][1]],
-    [common_12_array1[0][3], common_10_array4[0][1], common_9_array6[0][0], common_9_array6[0][1]],
-    [common_10_array4[0][3], common_10_array4[0][2], common_9_array6[0][3], common_9_array6[0][2]]
+    [array1[0][0], array1[0][1], array2[0][1], array3[0][1]],
+    [array1[0][3], array4[0][1], array6[0][0], array6[0][1]],
+    [array4[0][3], array4[0][2], array6[0][3], array6[0][2]]
 ]
 
 print('Result:', result)
