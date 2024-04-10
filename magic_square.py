@@ -2,6 +2,8 @@ maxNumber = 12
 
 # Node format: [target_sum, {fixed_position: fixed_value}, [excluded_nums]]
 
+#original
+
 nodes = [
     [23, {3: 1}, [5]],  
     [37, {}, [1, 5]],
@@ -9,7 +11,29 @@ nodes = [
     [27, {0: 1}, [5]],
     [40, {}, [1, 5]],
     [24, {1: 5}, [1]]
-]
+] 
+
+#test 1 - hold position, change number, numbers - 2, no common node
+
+""" nodes = [
+    [23, {3: 1}, [6]],  
+    [37, {}, [1, 6]],
+    [30, {2: 6}, [1]],
+    [27, {0: 1}, [6]],
+    [40, {}, [1, 6]],
+    [25, {1: 6}, [1]]
+] """
+
+#test2 - change position, change number, numbers - 2, no common node
+
+""" nodes = [
+    [23, {3: 1}, [12]],  
+    [33, {}, [1 , 12]],
+    [30, {}, [1 , 12]],
+    [23, {0: 1}, [12]],
+    [36, {2: 12}, [1]],
+    [25, {3: 12}, [1]]
+] """
 
 # find all the possible combinations for the given node, 
 # from numbers until maxNumber including the number at position what is in the object excluding the last number / numbers 
@@ -86,7 +110,7 @@ constellation_type_2=[[2,3],[1,0]]
 constellation_type_middle_1=[[2],[0]]
 constellation_type_middle_2=[[3],[1]]
 
-array1 =find_common_with_matching_positions(array1, array2, *constellation_type_1)[0]
+array1 = find_common_with_matching_positions(array1, array2, *constellation_type_1)[0]
 array2 = find_common_with_matching_positions(array1, array2, *constellation_type_1)[1]
 
 array2 = find_common_with_matching_positions(array2, array3, *constellation_type_1)[0]
@@ -119,7 +143,41 @@ array4 =  find_common_with_matching_positions(array2, array4, *constellation_typ
 array3 =  find_common_with_matching_positions(array3, array5, *constellation_type_middle_2)[0]
 array5 =  find_common_with_matching_positions(array3, array5, *constellation_type_middle_2)[1]
 
-array1 =  find_common_with_matching_positions(array1, array2, *constellation_type_1)[0]
+
+
+
+array1 = find_common_with_matching_positions(array1, array2, *constellation_type_1)[0]
+array2 = find_common_with_matching_positions(array1, array2, *constellation_type_1)[1]
+
+array2 = find_common_with_matching_positions(array2, array3, *constellation_type_1)[0]
+array3 = find_common_with_matching_positions(array2, array3, *constellation_type_1)[1]
+
+array4 = find_common_with_matching_positions(array4, array5, *constellation_type_1)[0]
+array5 = find_common_with_matching_positions(array4, array5, *constellation_type_1)[1]
+
+array5 = find_common_with_matching_positions(array5, array6, *constellation_type_1)[0]
+array6 = find_common_with_matching_positions(array5, array6, *constellation_type_1)[1]
+
+array1 = find_common_with_matching_positions(array1, array4, *constellation_type_2)[0]
+array4 = find_common_with_matching_positions(array1, array4, *constellation_type_2)[1]
+
+array2 = find_common_with_matching_positions(array2, array5, *constellation_type_2)[0]
+array5 = find_common_with_matching_positions(array2, array5, *constellation_type_2)[1]
+
+array3 =  find_common_with_matching_positions(array3, array6, *constellation_type_2)[0]
+array6 =  find_common_with_matching_positions(array3, array6, *constellation_type_2)[1]
+
+array1 =  find_common_with_matching_positions(array1, array5, *constellation_type_middle_1)[0]
+array5 =  find_common_with_matching_positions(array1, array5, *constellation_type_middle_1)[1]
+
+array2 =  find_common_with_matching_positions(array2, array6, *constellation_type_middle_1)[0]
+array6 =  find_common_with_matching_positions(array2, array6, *constellation_type_middle_1)[1]
+
+array2 =  find_common_with_matching_positions(array2, array4, *constellation_type_middle_2)[0]
+array4 =  find_common_with_matching_positions(array2, array4, *constellation_type_middle_2)[1]
+
+array3 =  find_common_with_matching_positions(array3, array5, *constellation_type_middle_2)[0]
+array5 =  find_common_with_matching_positions(array3, array5, *constellation_type_middle_2)[1]
 
 """ print('common_with',*array1 )
 print('common_with',*array2 )
