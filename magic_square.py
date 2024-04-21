@@ -193,4 +193,5 @@ result = [
     [array4[0][3], array4[0][2], array6[0][3], array6[0][2]]
 ]
 
-print('Result:', result)
+for row in result:
+    print(row)
