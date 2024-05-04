@@ -179,12 +179,6 @@ array4 =  find_common_with_matching_positions(array2, array4, *constellation_typ
 array3 =  find_common_with_matching_positions(array3, array5, *constellation_type_middle_2)[0]
 array5 =  find_common_with_matching_positions(array3, array5, *constellation_type_middle_2)[1]
 
-""" print('common_with',*array1 )
-print('common_with',*array2 )
-print('common_with',*array3 )
-print('common_with',*array4 )
-print('common_with',*array5 )
-print('common_with',*array6 ) """
 
 # Structured assembly of result based on specified indices from the arrays
 result = [
