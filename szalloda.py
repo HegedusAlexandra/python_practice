@@ -43,7 +43,7 @@ class Szalloda :
                 self.hotel_foglalasok.append(uj_foglalas)
                 if not isIncoming:
                     print('*********************************')
-                    print("Sikeres foglalás!")
+                    print(f"Sikeres foglalás! A szoba ára a kért napra : {szoba.szoba_ar} Ft.")
                     print('*********************************')
                     self.mutasd_foglalasok()
                 return
