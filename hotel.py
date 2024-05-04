@@ -1,106 +1,213 @@
-from datetime import datetime, timedelta
+from datetime import datetime
+import os
 
-class Szoba:
-    def __init__(self, ar, szobaszam):
-        self.ar = ar
-        self.szobaszam = szobaszam
+
+""" _____________Szálloda,Szoba,Egyágyas,Kétágyas,Foglalás Osztályok létrehozása___________"""
+today = datetime.today().date()
+
+class Szoba :
+    def __init__ (self,szoba_szam,szoba_ar,szoba_tipus):
+        self.szoba_szam = szoba_szam
+        self.szoba_ar = szoba_ar
+        self.szoba_tipus = szoba_tipus
+
+    def __str__(self):
+        return f"Szobaszám: {self.szoba_szam}, Ár: {self.szoba_ar} Ft Tipus: {self.szoba_tipus}"
 
 class EgyagyasSzoba(Szoba):
-    def __init__(self, szobaszam):
-        super().__init__(ar=5000, szobaszam=szobaszam)
+    def __init__(self, szoba_szam):
+        super().__init__(szoba_ar=10000, szoba_szam=szoba_szam ,szoba_tipus='egyágyas szoba')
 
-class KetagyasSzoba(Szoba):
-    def __init__(self, szobaszam):
-        super().__init__(ar=8000, szobaszam=szobaszam)
+class KetagyasSzoba(Szoba):  
+    def __init__(self, szoba_szam):
+        super().__init__(szoba_ar=20000, szoba_szam=szoba_szam ,szoba_tipus='kétágyas szoba')
 
-class Szalloda:
-    def __init__(self, nev):
-        self.nev = nev
-        self.szobak = []
-        self.foglalasok = []
+class Szalloda :
+    group_name = 'GDE PROJECT EVENT GROUP'
+    def __init__(self,hotel_name,hotel_szobak,hotel_foglalasok):
+        self.hotel_name = hotel_name
+        self.hotel_szobak = hotel_szobak
+        self.hotel_foglalasok = hotel_foglalasok
 
-    def add_szoba(self, szoba):
-        self.szobak.append(szoba)
+    def hozzaadas_szoba (self,szoba):
+        self.hotel_szobak.append(szoba)
 
-    def foglalas(self, szobaszam, datum):
-        for foglalas in self.foglalasok:
-            if foglalas["szobaszam"] == szobaszam and foglalas["datum"] == datum:
+
+    def hozzaadas_foglalas(self, uj_foglalas, isIncoming):
+        for foglalas in self.hotel_foglalasok:
+            if foglalas.foglalt_szoba_szam == uj_foglalas.foglalt_szoba_szam and foglalas.foglalt_datum == uj_foglalas.foglalt_datum and not isIncoming:
+                print('*********************************')
                 print("A szoba már foglalt ezen a napon.")
+                print('*********************************')
                 return
-        for szoba in self.szobak:
-            if szoba.szobaszam == szobaszam:
-                self.foglalasok.append({"szobaszam": szobaszam, "datum": datum})
-                print("Sikeres foglalás!")
+        for szoba in self.hotel_szobak:
+            if szoba.szoba_szam == uj_foglalas.foglalt_szoba_szam:
+                self.hotel_foglalasok.append(uj_foglalas)
+                if not isIncoming:
+                    print('*********************************')
+                    print(f"Sikeres foglalás! A szoba ára a kért napra : {szoba.szoba_ar} Ft.")
+                    print('*********************************')
+                    self.mutasd_foglalasok()
                 return
+        
+        print('*********************************')
         print("A megadott szobaszám nem létezik a szállodában.")
+        print('*********************************')
 
-    def lemondas(self, szobaszam, datum):
-        for foglalas in self.foglalasok:
-            if foglalas["szobaszam"] == szobaszam and foglalas["datum"] == datum:
-                self.foglalasok.remove(foglalas)
-                print("Sikeres lemondás!")
+    def torles_foglalas(self, szoba_szam_torles, foglalas_datum_torles, foglalo_nev_torles):
+        for foglalas in self.hotel_foglalasok:
+            if foglalas.foglalt_szoba_szam == szoba_szam_torles and foglalas.foglalt_datum == foglalas_datum_torles and foglalas.foglalo_neve == foglalo_nev_torles:
+                self.hotel_foglalasok.remove(foglalas)
+                print('*********************************')
+                print("A foglalás sikeresen törölve lett.")
+                print('*********************************')
+                self.mutasd_foglalasok()
                 return
-        print("Nincs ilyen foglalás a megadott szobaszámmal és dátummal.")
+        print('*********************************')
+        print("A megadott foglalás nem található.")
+        print('*********************************')
 
-    def listaz_foglalasok(self):
-        if self.foglalasok:
-            print("Foglalások:")
-            for foglalas in self.foglalasok:
-                print(f"Szobaszám: {foglalas['szobaszam']}, Dátum: {foglalas['datum']}")
+    def mutasd_szobak(self):
+        if len(self.hotel_szobak) > 0 : 
+            print('*********************************')
+            for szoba in self.hotel_szobak:            
+                print(szoba)
+            print('*********************************')
         else:
-            print("Nincs foglalás.")
+            print('*********************************')
+            print('Jövőre építünk szobákat,nézz vissza akkor')
+            print('*********************************')
+            
 
-def initialize_system():
-    hotel = Szalloda("Hotel Example")
-    hotel.add_szoba(EgyagyasSzoba(101))
-    hotel.add_szoba(EgyagyasSzoba(102))
-    hotel.add_szoba(KetagyasSzoba(201))
-    hotel.add_szoba(KetagyasSzoba(202))
-    hotel.add_szoba(KetagyasSzoba(203))
-
-    today = datetime.today().date()
-    for i in range(5):
-        datum = today + timedelta(days=i)
-        if i % 2 == 0:
-            hotel.foglalas(101, datum)
+    def mutasd_foglalasok(self):
+        if len(self.hotel_foglalasok) > 0:
+            save_reservations(self.hotel_foglalasok)
+            print('*********************************')
+            for foglalas in self.hotel_foglalasok:            
+                print(foglalas)
+            print('*********************************')
         else:
-            hotel.foglalas(201, datum)
+             print('*********************************')
+             print('Még rengeteg lehetőség közül választhatsz') 
+             print('*********************************')
+            
+class Foglalas:
+    def __init__ (self,datum,szoba_szam,kinek):
+          self.foglalt_datum = datum
+          self.foglalt_szoba_szam = szoba_szam
+          self.foglalo_neve = kinek  
 
-    return hotel
+    def __str__(self):
+        return f"Szobaszám: {self.foglalt_szoba_szam}, Foglalás időpontja: {self.foglalt_datum}, Foglaló neve: {self.foglalo_neve},"
+    
+def save_reservations(reservations):
+    try:
+        with open('reservations.txt', 'w') as file:
+            for reservation in reservations:
+                file.write(f"{reservation.foglalt_datum},{reservation.foglalt_szoba_szam},{reservation.foglalo_neve}\n")
+        print("Foglalás sikeresen elmentve")
+    except Exception as e:
+        print("Error saving reservations:", e)
 
-def main():
-    hotel = initialize_system()
+def load_reservations():
+    reservations = []
+    try:
+        with open('reservations.txt', 'r') as file:
+            for line in file:
+                parts = line.strip().split(',')
+                date = datetime.strptime(parts[0], "%Y-%m-%d").date()
+                room_number = int(parts[1])
+                guest_name = parts[2]
+                reservations.append(Foglalas(date, room_number, guest_name))
+    except FileNotFoundError:
+        pass  # If the file doesn't exist yet, return an empty list of reservations
+    return reservations
 
-    while True:
-        print("\n1. Foglalás\n2. Lemondás\n3. Foglalások listázása\n4. Kilépés")
-        choice = input("Válassz egy műveletet: ")
 
-        if choice == "1":
-            szobaszam = int(input("Add meg a szobaszámot: "))
-            datum_str = input("Add meg a dátumot (YYYY-MM-DD formátumban): ")
-            try:
-                datum = datetime.strptime(datum_str, "%Y-%m-%d").date()
-                if datum < datetime.today().date():
-                    print("A foglalás dátuma nem lehet a múltban.")
-                    continue
-                hotel.foglalas(szobaszam, datum)
-            except ValueError:
-                print("Hibás dátum formátum.")
-        elif choice == "2":
-            szobaszam = int(input("Add meg a szobaszámot: "))
-            datum_str = input("Add meg a dátumot (YYYY-MM-DD formátumban): ")
-            try:
-                datum = datetime.strptime(datum_str, "%Y-%m-%d").date()
-                hotel.lemondas(szobaszam, datum)
-            except ValueError:
-                print("Hibás dátum formátum.")
-        elif choice == "3":
-            hotel.listaz_foglalasok()
-        elif choice == "4":
-            print("Kilépés...")
-            break
+""" ________Szálloda rendszer inicializálása__________"""    
+            
+def sys_initialization():
+    szalloda_kek_hexagon = Szalloda('Kék Hexagon',[],load_reservations())
+    szalloda_kek_hexagon.hozzaadas_szoba(EgyagyasSzoba(1))
+    szalloda_kek_hexagon.hozzaadas_szoba(KetagyasSzoba(3))
+    szalloda_kek_hexagon.hozzaadas_szoba(KetagyasSzoba(6))
+    szalloda_kek_hexagon.hozzaadas_foglalas(Foglalas(datetime.strptime('2024-06-22', "%Y-%m-%d").date(),3,'Morty'),True)
+    szalloda_kek_hexagon.hozzaadas_foglalas(Foglalas(datetime.strptime('2024-07-12', "%Y-%m-%d").date(),1,'Jonas'),True)
+    szalloda_kek_hexagon.hozzaadas_foglalas(Foglalas(datetime.strptime('2024-08-18', "%Y-%m-%d").date(),3,'Silvan'),True)
+    szalloda_kek_hexagon.hozzaadas_foglalas(Foglalas(datetime.strptime('2024-06-22', "%Y-%m-%d").date(),6,'Otto'),True)
+    szalloda_kek_hexagon.hozzaadas_foglalas(Foglalas(datetime.strptime('2024-08-17', "%Y-%m-%d").date(),6,'Jonas'),True)
+    return szalloda_kek_hexagon
+
+szalloda_kek_hexagon = sys_initialization()
+
+def main(inOrOut):
+    
+
+    print(f"\n1. Foglalás\n2. Lemondás\n3. Foglalások listázása\n4. Szobák listázása\n5. {inOrOut}")
+    try:
+        choice = int(input("Válassz egy műveletet: "))  
+    except:
+        print('wrong key')
+        main('Belépés')      
+
+    if inOrOut == 'Belépés':
+        if choice == 5 :
+            print('Köszönjük! Viszontlátásra!' if inOrOut == 'Kilépés' else 'Isten Hozott!')
+            main('Belépés' if inOrOut == 'Kilépés' else 'Kilépés')
         else:
-            print("Érvénytelen választás.")
+            print('*********************************')
+            print('Kérem lépjen be a rendszerbe')
+            print('*********************************')
+            main('Belépés')        
+    else:
+            if choice == 1:
+                    datum_str = input('Adjon meg egy dátumot (YYYY-MM-DD formátumban): ')
+                    szoba_szam = int(input('Adja meg a szobaszámot: '))
+                    nev = input('Adja meg a nevét: ')
+                    
+                    try:
+                        datum = datetime.strptime(datum_str, "%Y-%m-%d").date()
+                        szoba_szam = int(szoba_szam)
+                        if not 1 <= szoba_szam <= 100: 
+                            raise ValueError("Invalid room number")
+                        if not nev.isalnum():
+                            raise ValueError("Invalid guest name")
+                        
+                        szalloda_kek_hexagon.hozzaadas_foglalas(Foglalas(datum, szoba_szam, nev), False)
+                    except ValueError as e:
+                        print("Hibás bemenet:", e)
+                    main('Kilépés')
+            elif choice == 2:
+                    datum_str_tor = input('Adjon meg egy dátumot (YYYY-MM-DD formátumban) amit törölni szeretne: ')
+                    szoba_szam = int(input('Adja meg a szobaszámot amit törölni szeretne: '))
+                    nev = input('Adja meg a nevét: ')
+
+                    try:
+                        datum = datetime.strptime(datum_str_tor, "%Y-%m-%d").date()
+                        if datum < today:
+                            print('*********************************')
+                            print("A foglalás dátuma nem lehet a múltban.")
+                            print('*********************************')
+                        else:
+                            szalloda_kek_hexagon.torles_foglalas(szoba_szam,datum,nev)
+                    except ValueError:
+                        print("Hibás dátum formátum.")
+                    
+                    main('Kilépés')
+            elif choice == 3:
+                    szalloda_kek_hexagon.mutasd_foglalasok()
+                    main('Kilépés')
+            elif choice == 4:
+                    szalloda_kek_hexagon.mutasd_szobak()
+                    main('Kilépés')
+            else:
+                if os.path.exists('reservations.txt'):
+                    os.remove('reservations.txt')
+                print("A foglalás fájlt töröltem.")
+                print('Köszönjük! Viszontlátásra!' if inOrOut == 'Kilépés' else 'Isten Hozott!')
+                main('Belépés' if inOrOut == 'Kilépés' else 'Kilépés')
+
 
 if __name__ == "__main__":
-    main()
+    main('Belépés')
+
